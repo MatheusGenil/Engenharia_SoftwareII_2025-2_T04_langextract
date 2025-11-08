@@ -1,13 +1,15 @@
 # Engenharia_SoftwareII_2025-2_T04_langextract
 Projeto da disciplina de Engenharia de Software II (2025-2), cujo objetivo é aplicar uma metodologia comparativa de análise para identificar os padrões arquiteturais de software presentes no repositório Langextract.
 
+Projeto a ser analisado: https://github.com/google/langextract
+
 Modelos de LLMs Selecionados:
   1 - 
   2 - 
   3 - 
 
 Estratégias de análise selecionadas:
-  1 - 
+  1 - Análise dos commits feitos no repositório
   2 - 
 
 Quarteto 1:
