@@ -9,8 +9,8 @@ Modelos de LLMs Selecionados:
   3 - 
 
 Estratégias de análise selecionadas:
-  1 - Análise dos commits feitos no repositório
-  2 - Análise do README.mb da arquitetura do projeto
+  1. Análise dos commits feitos no repositório
+  2. Análise do README.mb da arquitetura do projeto
   * Análise a partir do CodeSearch (Desafio pessoal de Matheus)
 
 Quarteto 1:
