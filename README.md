@@ -14,7 +14,8 @@ Quarteto 1:
   1. Valter
   2. Rivaldo
   3. Matheus 
-  4. Raphael 
+  4. Raphael
+
 Quarteto 2:
   1. José Fernando 
   2. José Domingos 
