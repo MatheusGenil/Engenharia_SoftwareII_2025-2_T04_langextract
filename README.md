@@ -9,3 +9,14 @@ Modelos de LLMs Selecionados:
 Estratégias de análise selecionadas:
   1 - 
   2 - 
+
+Quarteto 1:
+  1. Valter
+  2. Rivaldo
+  3. Matheus 
+  4. Raphael 
+Quarteto 2:
+  1. José Fernando 
+  2. José Domingos 
+  3. João 
+  4. Adriano
