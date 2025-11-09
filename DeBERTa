@@ -10,12 +10,12 @@ pipe = pipeline("zero-shot-classification", model=model_name)
 
 os.chdir('langextract')
 
-termos_busca = "architecture|pattern|registry|factory|refactor|design"
 # Análise dos commits com Zero-Shot
 
+termos_busca = "architecture|design|pattern"
 subprocess.run(
-    #["git", "log", "--all", "-i", "-E", f"--grep={termos_busca}", "--pretty=format:%s"],
-    ["git", "log", "--all", "--pretty=format:%s"],
+    ["git", "log", "--all", "-i", "-E", f"--grep={termos_busca}", "--pretty=format:%s"],
+    #["git", "log", "--all", "--pretty=format:%s"],
     stdout=open("../commits_filtrados.txt", "w", encoding="utf-8")
 )
 
@@ -24,7 +24,7 @@ os.chdir('..')
 with open("commits_filtrados.txt", "r", encoding="utf-8") as f:
     context_filtrado = f.read()
 
-candidate_labels = ["MVC", "Layered", "Microservices", "Event Driven", "Pipe and Filter", "Factory"]
+candidate_labels = ["MVC", "Layered", "Microservices", "Event Driven", "Pipe and Filter", "Factory", "modular"]
 print("\n--- Executando Modelo 2 (Zero-Shot) nos commits... ---")
 
 result = pipe(
