@@ -3,6 +3,8 @@ Projeto da disciplina de Engenharia de Software II (2025-2), cujo objetivo é ap
 
 Projeto a ser analisado: https://github.com/google/langextract
 
+Relatório/Tutorial: https://www.overleaf.com/project/690e8547d953afd50a3d6703
+
 Modelos de LLMs Selecionados:
   1 - 
   2 - 
