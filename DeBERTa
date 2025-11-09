@@ -1,0 +1,75 @@
+!pip install -U transformers
+from transformers import pipeline
+import os, subprocess
+
+model_name = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
+pipe = pipeline("zero-shot-classification", model=model_name)
+
+!rm -rf langextract
+!git clone https://github.com/google/langextract.git
+
+os.chdir('langextract')
+
+termos_busca = "architecture|pattern|registry|factory|refactor|design"
+# Análise dos commits com Zero-Shot
+
+subprocess.run(
+    #["git", "log", "--all", "-i", "-E", f"--grep={termos_busca}", "--pretty=format:%s"],
+    ["git", "log", "--all", "--pretty=format:%s"],
+    stdout=open("../commits_filtrados.txt", "w", encoding="utf-8")
+)
+
+os.chdir('..')
+
+with open("commits_filtrados.txt", "r", encoding="utf-8") as f:
+    context_filtrado = f.read()
+
+candidate_labels = ["MVC", "Layered", "Microservices", "Event Driven", "Pipe and Filter", "Factory"]
+print("\n--- Executando Modelo 2 (Zero-Shot) nos commits... ---")
+
+result = pipe(
+    sequences=context_filtrado,
+    candidate_labels=candidate_labels,
+    multi_label=True
+)
+
+# Análise do README.md com Zero-Shot
+# Tentar ler o arquivo README.md
+try:
+    with open("langextract/README.md", "r", encoding="utf-8") as f:
+        contexto_readme = f.read()
+except FileNotFoundError:
+    print("ERRO: Arquivo langextract/README.md não encontrado.")
+    contexto_readme = ""
+
+if contexto_readme:
+    print("\n--- Executando Modelo 2 (Zero-Shot) no README.md... ---")
+
+    # Usar o 'pipe' e 'candidate_labels' da célula anterior
+    result_readme = pipe(
+        sequences=contexto_readme,
+        candidate_labels=candidate_labels,
+        multi_label=True
+    )
+
+
+# Imprimir os resultados para commit
+print("\n--- RESULTADOS (Modelo 2 - Análise de commits) ---")
+
+top_commit = sorted(zip(result["labels"], result["scores"]), key=lambda x: x[1], reverse=True)
+
+for i, (label, score) in enumerate(top_commit, start=1):
+    print(f"{i}. {label:20} -> {score:.4f}")
+
+# Imprimir os resultados para o README
+print("\n--- RESULTADOS (Modelo 2 - Análise do README.md) ---")
+
+# Criar um dicionário para facilitar a ordenação
+resultados_readme = {label: score for label, score in zip(result_readme["labels"], result_readme["scores"])}
+
+top_readme = sorted(resultados_readme.items(), key=lambda item: item[1], reverse=True)
+
+# Ordenar os resultados pela pontuação (score) em ordem decrescente
+for i, (label, score) in enumerate(top_readme, start=1):
+    print(f"{i}. {label:20} -> {score:.4f}")
+
