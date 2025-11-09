@@ -1,0 +1,44 @@
+Pipeline “zero-shot-classification”
+
+Analisando feita a partir do arquivo: https://github.com/google/langextract/blob/main/README.md 
+
+============== joeddav/xlm-roberta-large-xnli ==============
+
+🏗️  Resultado da inferência de arquitetura:
+Layered: 18.03%
+Provider: 16.02%
+MVC: 15.18%
+Factory: 14.14%
+Event Driven: 12.87%
+Pipe and Filter: 12.48%
+Microservices: 11.27%
+
+➡️  Arquitetura mais presente: Layered (confiança: 18.03%)
+
+
+============== facebook/bart-large-mnli ==============
+
+🏗️  Resultado da inferência de arquitetura:
+Layered: 19.60%
+Event Driven: 17.45%
+Provider: 16.86%
+Pipe and Filter: 14.86%
+Microservices: 12.88%
+MVC: 10.48%
+Factory: 7.87%
+
+➡️  Arquitetura mais presente: Layered (confiança: 19.60%)
+
+
+============== MoritzLaurer/deberta-v3-large-zeroshot-v1 ==============
+
+🏗️  Resultado da inferência de arquitetura:
+Layered: 59.35%
+Provider: 13.39%
+Microservices: 8.30%
+Pipe and Filter: 8.14%
+Event Driven: 4.61%
+MVC: 4.28%
+Factory: 1.92%
+
+➡️  Arquitetura mais presente: Layered (confiança: 59.35%)
