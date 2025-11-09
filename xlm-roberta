@@ -1,0 +1,37 @@
+!pip install -U Transformers
+# Use a pipeline as a high-level helper
+from transformers import pipeline
+import os
+
+pipe = pipeline("question-answering", model="deepset/xlm-roberta-large-squad2")
+
+# Load model directly
+from transformers import AutoTokenizer, AutoModelForQuestionAnswering
+
+tokenizer = AutoTokenizer.from_pretrained("deepset/xlm-roberta-large-squad2")
+model = AutoModelForQuestionAnswering.from_pretrained("deepset/xlm-roberta-large-squad2")
+
+!git clone https://github.com/google/langextract.git
+os.chdir('langextract')
+termos_busca = "architecture|pattern|registry|factory|refactor|design"
+
+!git log --all -i -E --grep="{termos_busca}" --pretty=format:"%s" > ../commits_filtrados.txt
+
+# Voltando para o diretório anterior
+os.chdir('..')
+
+with open("commits_filtrados.txt", "r", encoding="utf-8") as f:
+        context_filtrado = f.read()
+
+        question = "What architecture pattern was implemented?"
+
+
+print(f"--- Pergunta: '{question}' ---")
+
+# AGORA podemos passar o contexto inteiro com segurança,
+# pois ele é pequeno e focado apenas no que importa.
+result = pipe(question=question, context=context_filtrado)
+
+print("\n--- RESULTADOS (Modelo 1- Análise de Commits) ---")
+print(f"\nResposta encontrada nos commits:")
+print(f"-> {result['answer']}")
