@@ -1,0 +1,118 @@
+from transformers import pipeline
+import os
+import re
+import subprocess
+
+class HuggingFaceWrapper:
+    def __init__(self, model_name: str):
+        self.pipeline = pipeline("zero-shot-classification", model=model_name)
+
+    def classify_text(self, text: str, candidate_labels: list[str]):
+        return self.pipeline(text, candidate_labels=candidate_labels)
+
+# ======================================================
+# 🔹 CONFIGURAÇÕES
+# ======================================================
+
+# Repositório alvo
+repo_url = "https://github.com/google/langextract.git"
+
+# Pasta temporária onde o repositório será clonado
+repo_dir = "repo_temp"
+
+# ======================================================
+# 🔹 CLONAGEM DO REPOSITÓRIO
+# ======================================================
+if not os.path.exists(repo_dir):
+    print(f"📥 Clonando repositório {repo_url} ...")
+    subprocess.run(["git", "clone", repo_url, repo_dir], check=True)
+else:
+    print(f"✅ Repositório já clonado em {repo_dir}")
+
+# ======================================================
+# 🔹 EXTRAÇÃO DOS COMMITS RELEVANTES
+# ======================================================
+
+# Termos de busca (como no seu código 2)
+termos_busca = [
+    "architecture", "architectural", "pattern", "design",
+    "registry", "factory", "refactor", "provider", "module"
+]
+
+padrao_grep = "|".join(termos_busca)
+
+# Executa comando git log e filtra mensagens de commit
+print("🔎 Coletando commits relevantes ...")
+
+result = subprocess.run(
+    ["git", "-C", repo_dir, "log", "--all", "-i", "-E", f"--grep={padrao_grep}", "--pretty=format:%s"],
+    capture_output=True,
+    text=True
+)
+
+commits_filtrados = result.stdout.strip()
+
+if not commits_filtrados:
+    print("⚠️ Nenhum commit relevante encontrado.")
+else:
+    linhas_relevantes = commits_filtrados.splitlines()
+    print(f"✅ {len(linhas_relevantes)} mensagens de commit relevantes extraídas.\n")
+
+# ======================================================
+# 🔹 PREPARAÇÃO DO TEXTO PARA ANÁLISE
+# ======================================================
+texto_filtrado = "\n".join(linhas_relevantes) if commits_filtrados else ""
+
+if not texto_filtrado.strip():
+    print("⚠️ Nenhum texto relevante encontrado nos commits.")
+else:
+    print("🧠 Analisando mensagens de commit com modelo zero-shot ...")
+
+# ======================================================
+# 🔹 DEFINIÇÃO DAS ARQUITETURAS
+# ======================================================
+candidate_labels = [
+    "Monolithic",
+    "Microservices",
+    "Serverless",
+    "Event Driven",
+    "Layered",
+    "Hexagonal",
+    "Clean Architecture",
+    "Service Oriented Architecture",
+    "Client Server",
+    "MVC",
+    "Singleton",
+    "Factory Method",
+    "Observer",
+    "Strategy",
+    "Adapter",
+    "Facade",
+    "Decorator",
+    "Repository",
+    "Command",
+    "Dependency Injection",
+    "Modular",
+    "Pipe and Filter",
+    "Provider-based Architecture",
+    "Plugin-based Architecture"
+]
+
+# ======================================================
+# 🔹 CLASSIFICAÇÃO VIA HUGGINGFACE
+# ======================================================
+model_name = "facebook/bart-large-mnli"
+hf = HuggingFaceWrapper(model_name)
+
+texto_para_analisar = texto_filtrado or "No commit data found."
+result = hf.classify_text(texto_para_analisar, candidate_labels)
+
+# ======================================================
+# 🔹 RESULTADOS
+# ======================================================
+print("\n============== " + model_name + " ==============")
+print("\n🏗️  Resultado da inferência de arquitetura (baseada nos commits):")
+for label, score in zip(result["labels"], result["scores"]):
+    print(f"{label}: {score:.2%}")
+
+print(f"\n➡️  Arquitetura mais provável: {result['labels'][0]} (confiança: {result['scores'][0]:.2%})")
