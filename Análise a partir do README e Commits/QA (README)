@@ -1,0 +1,98 @@
+# =====================================================
+# Análise de Arquitetura de Software via QA (README)
+# =====================================================
+
+# Instala dependências
+!pip install -q transformers gitpython
+
+from transformers import pipeline
+import os, re
+from git import Repo
+
+# =====================================================
+# Inicializa o modelo QA (menor e mais rápido)
+# =====================================================
+#pode trocar por:
+#   - "deepset/roberta-large-squad2" (mais lento, mais preciso)
+#   - "google-bert/bert-large-cased-whole-word-masking-finetuned-squad"
+#   - "distilbert-base-cased-distilled-squad"
+model_name = "google-bert/bert-large-cased-whole-word-masking-finetuned-squad"
+pipe = pipeline("question-answering", model=model_name)
+print(f"✅ Modelo carregado: {model_name}")
+
+# =====================================================
+# Clona o repositório LangExtract e lê o README
+# =====================================================
+repo_url = "https://github.com/google/langextract.git"
+repo_dir = "langextract"
+
+if not os.path.exists(repo_dir):
+    print("📥 Clonando repositório LangExtract ...")
+    Repo.clone_from(repo_url, repo_dir)
+else:
+    print("✅ Repositório já disponível localmente.")
+
+readme_path = os.path.join(repo_dir, "README.md")
+if not os.path.exists(readme_path):
+    raise FileNotFoundError("❌ README.md não encontrado.")
+
+with open(readme_path, "r", encoding="utf-8") as f:
+    readme_text = f.read()
+print(f"✅ README carregado ({len(readme_text)} caracteres)")
+
+# =====================================================
+# Filtra conteúdo relevante (reduz contexto)
+# =====================================================
+termos_busca = ["architecture", "pattern", "module", "design", "provider", "service"]
+padrao = re.compile("|".join(termos_busca), flags=re.IGNORECASE)
+linhas_relevantes = [linha for linha in readme_text.splitlines() if padrao.search(linha)]
+contexto_relevante = "\n".join(linhas_relevantes) or readme_text
+print(f"📄 Contexto filtrado: {len(contexto_relevante)} caracteres\n")
+
+# =====================================================
+# Contexto adicional de apoio semântico
+# =====================================================
+contexto_extra = """
+Software architecture refers to the high-level structure of a system,
+including styles like Layered, Modular, Microservices, Service-Oriented,
+Plugin-based, and Client-Server. Architectural cues may appear in words
+such as "module", "provider system", "parallel processing", "plugin",
+"dependency injection", "microservice", or "service architecture".
+"""
+
+# =====================================================
+# Perguntas otimizadas
+# =====================================================
+questions = [
+    "What software architecture does the project use?",
+    "Which architectural pattern best describes the LangExtract system?",
+    "Is this project modular, plugin-based, or monolithic?",
+    "What architecture or design style does LangExtract follow?",
+    "How is the system organized architecturally?",
+    "What architectural approach or framework is implemented?",
+    "What type of software architecture is described in the documentation?"
+]
+
+# =====================================================
+# Executa QA (com seleção da melhor resposta)
+# =====================================================
+melhor = {"question": None, "answer": None, "score": 0.0}
+contexto_total = contexto_extra + "\n" + contexto_relevante
+
+print("🧠 Iniciando análise...")
+for q in questions:
+    result = pipe(question=q, context=contexto_total)
+    print(f"\n❓ Pergunta: {q}")
+    print(f"→ Resposta: {result['answer']}")
+    print(f"→ Confiança: {result['score']:.4f}")
+
+    if result["score"] > melhor["score"]:
+        melhor = {"question": q, "answer": result["answer"], "score": result["score"]}
+
+# =====================================================
+# Resultado final
+# =====================================================
+print("\n🏁 === MELHOR RESULTADO ===")
+print(f"Pergunta: {melhor['question']}")
+print(f"Resposta: {melhor['answer']}")
+print(f"Confiança: {melhor['score']:.4f}")
