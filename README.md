@@ -1,28 +1,5 @@
 # Engenharia_SoftwareII_2025-2_T04_langextract
-Projeto da disciplina de Engenharia de Software II (2025-2), cujo objetivo é aplicar uma metodologia comparativa de análise para identificar os padrões arquiteturais de software presentes no repositório Langextract.
 
-Projeto a ser analisado: https://github.com/google/langextract
+Este repositório contém os experimentos, scripts e documentação produzidos para a atividade de análise de padrões arquiteturais utilizando modelos de linguagem pré-treinados. O objetivo central do trabalho é investigar como modelos baseados em Transformers, originalmente desenvolvidos para Processamento de Linguagem Natural (PLN), podem ser aplicados à interpretação de artefatos de software, como mensagens de commit e documentação técnica.
 
-Relatório/Tutorial: https://www.overleaf.com/project/690e8547d953afd50a3d6703
-
-Modelos de LLMs Selecionados:
-  1 - 
-  2 - 
-  3 - 
-
-Estratégias de análise selecionadas:
-  1. Análise dos commits feitos no repositório
-  2. Análise do README.mb da arquitetura do projeto
-  * Análise a partir do CodeSearch (Desafio pessoal de Matheus)
-
-Quarteto 1:
-  1. Valter
-  2. Rivaldo
-  3. Matheus 
-  4. Raphael
-
-Quarteto 2:
-  1. José Fernando 
-  2. José Domingos 
-  3. João 
-  4. Adriano
+A análise foi conduzida utilizando técnicas de Zero-Shot Classification e Question Answering, aplicadas a textos reais extraídos do repositório público LangExtract, da Google. O foco foi verificar a capacidade desses modelos em identificar padrões arquiteturais presentes no projeto, tais como Layered Architecture, Clean Architecture, Repository Pattern e Service-Oriented Architecture, mesmo sem nenhum treinamento supervisionado específico para essa tarefa.
