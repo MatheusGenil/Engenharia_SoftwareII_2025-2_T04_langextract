@@ -5,7 +5,6 @@ from transformers import pipeline
 import requests
 import re
 
-
 class HuggingFaceWrapper:
     def __init__(self, model_name: str):
         self.pipeline = pipeline("zero-shot-classification", model=model_name)
@@ -104,7 +103,7 @@ while True:
 hf = HuggingFaceWrapper(model_name)
 
 # README
-if selecao == 1:
+if estrategia == 1:
     # URL do README em formato raw
     url = "https://raw.githubusercontent.com/google/langextract/main/README.md"
     readme_text = requests.get(url).text
@@ -123,13 +122,6 @@ if selecao == 1:
 
     # 🔎 Classificação baseada no texto filtrado
     result = hf.classify_text(texto_filtrado or readme_text, candidate_labels)
-
-    print("\n============== " + model_name + " ==============")
-    print("\n🏗  Resultado da inferência de arquitetura (baseada no readme.mb):")
-    for label, score in zip(result["labels"], result["scores"]):
-        print(f"{label}: {score:.2%}")
-
-    print(f"\n➡  Arquitetura mais provável: {result['labels'][0]} (confiança: {result['scores'][0]:.2%})")
 
 else:
     # Repositório alvo
