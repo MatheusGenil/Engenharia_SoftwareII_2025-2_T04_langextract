@@ -333,7 +333,7 @@ padrão arquitetural identificado pelos três modelos testados.</p>
         <tr>
             <td>distilbert-base-cased-distilled-squad</td>
             <td>What architecture or design style does LangExtract follow?</td>
-            <td>0.5736</td>
+            <td>0.6982</td>
         </tr>
     </tbody>
 </table>
