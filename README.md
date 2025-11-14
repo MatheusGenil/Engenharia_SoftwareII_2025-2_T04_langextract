@@ -91,6 +91,24 @@ Model-View-Controller (MVC): 37.48%
 Microservices: 11.62%
 Arquitetura mais provável: Layered Architecture (confiança: 42.15%)</code>
 
+<h2>Resultados Consolidados</h2>
+
+<p>Para consolidar a avaliação, foram analisadas duas fontes de evidência textual do
+projeto:</p>
+
+<ol>
+  <li>O arquivo README.md, representando a documentação principal;</li>
+  <li>As mensagens de commits, representando o histórico de desenvolvimento.</li>
+<ol>
+
+<p>As Tabelas 3.1 e 3.2 apresentam, respectivamente, as probabilidades associadas a cada
+padrão arquitetural identificado pelos três modelos testados.</p>
+
+<img width="612" height="515" alt="image" src="https://github.com/user-attachments/assets/6f653a08-e0b3-461e-bf02-76eb5b4e639a" />
+
+<img width="617" height="521" alt="image" src="https://github.com/user-attachments/assets/20347adb-4ab8-4951-b1cd-31bb5a9899d7" />
+
+
 
 <h1>Documentação do Script de Inferência QA sobre Commits</h1>
 
@@ -187,6 +205,7 @@ Arquitetura mais provável: Layered Architecture (confiança: 42.15%)</code>
 <p><strong>google-bert/bert-large-cased-whole-word-masking-finetuned-squad</strong>, com maior escore de confiança.</p>
 
 <hr>
+
 
 <h1>Documentação do Script de Inferência QA sobre README</h1>
 
@@ -314,7 +333,7 @@ Arquitetura mais provável: Layered Architecture (confiança: 42.15%)</code>
         <tr>
             <td>distilbert-base-cased-distilled-squad</td>
             <td>What architecture or design style does LangExtract follow?</td>
-            <td>custom model</td>
+            <td>0.5736</td>
         </tr>
     </tbody>
 </table>
