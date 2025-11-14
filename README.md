@@ -6,7 +6,7 @@ A análise foi conduzida utilizando técnicas de Zero-Shot Classification e Ques
 
 Tutorial completo (PDF): https://github.com/MatheusGenil/Engenharia_SoftwareII_2025-2_T04_langextract/blob/01e6da0d09d93cf5f88d8c8ffe3e196260fe29bc/Tutorial.pdf
 
-Link do video: https://drive.google.com/file/d/19URGOQWekTi2lAshx2b-Q6Eld_QxNrDr/view?usp=sharing
+Link do video: https://drive.google.com/file/d/1UKRzWij-_ip2Oz2yoU1lPN26qh0kOO5a/view?usp=sharing
 
 <section>
     <h1>Metodologia</h1>
