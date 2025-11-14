@@ -90,3 +90,231 @@ Layered Architecture: 42.15%
 Model-View-Controller (MVC): 37.48%
 Microservices: 11.62%
 Arquitetura mais provável: Layered Architecture (confiança: 42.15%)</code>
+
+
+<h1>Documentação do Script de Inferência QA sobre Commits</h1>
+
+<h2>Visão Geral</h2>
+<p>
+    Este script utiliza modelos de Question Answering (QA) da biblioteca <strong>Transformers</strong>
+    da Hugging Face para identificar, a partir do histórico de commits de um repositório,
+    indícios de refatoração arquitetural. O método aplica perguntas predefinidas a mensagens
+    de commits filtradas por termos relacionados a arquitetura e padrões de projeto, buscando
+    inferir qual estilo arquitetural foi implementado.
+</p>
+
+<h2>Objetivo do Script</h2>
+<p>
+    O objetivo é determinar, com base no conteúdo textual dos commits, o tipo de arquitetura 
+    ou padrão de projeto predominante após refatorações. Para isso, o código compara
+    o desempenho de três modelos de QA distintos, avaliando suas respostas e níveis de confiança
+    para selecionar a inferência mais coerente.
+</p>
+
+<h2>Estrutura e Dependências</h2>
+<p>O script foi implementado em Python e depende das seguintes bibliotecas:</p>
+<ul>
+    <li><strong>transformers</strong>: para acesso ao pipeline de QA;</li>
+    <li><strong>os</strong>: para manipulação de diretórios;</li>
+    <li><strong>git</strong>: utilizado externamente para filtrar commits relevantes.</li>
+</ul>
+
+<p>Os modelos utilizados são:</p>
+<ul>
+    <li>google-bert/bert-large-cased-whole-word-masking-finetuned-squad</li>
+    <li>deepset/roberta-large-squad2</li>
+    <li>distilbert-base-cased-distilled-squad</li>
+</ul>
+
+<h2>Fluxo de Execução</h2>
+<p>
+    O script executa inicialmente um comando <code>git log</code> filtrando mensagens contendo termos:
+</p>
+
+<pre><code>architecture | pattern | registry | factory | refactor | design</code></pre>
+
+<p>
+    Os commits são armazenados em arquivo de texto. Em seguida, o pipeline de QA é aplicado
+    ao contexto para responder perguntas otimizadas e extrair inferências sobre arquitetura.
+    A resposta de maior confiança é selecionada para cada modelo.
+</p>
+
+<h2>Termos de Busca</h2>
+<p>Utilizados para filtrar commits:</p>
+<pre><code>architecture | pattern | registry | factory | refactor | design</code></pre>
+
+<h2>Saída Esperada</h2>
+<p>
+    A saída consiste em múltiplas inferências (uma por pergunta) e, ao final,
+    a resposta com maior confiança. Cada modelo gera seus próprios resultados.
+</p>
+
+<h2>Resultados Consolidados</h2>
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Modelo</th>
+            <th>Pergunta com Maior Score</th>
+            <th>Confiança</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>deepset/roberta-large-squad2</td>
+            <td>Into what architecture was the codebase refactored?</td>
+            <td>clean layered — 1.0264</td>
+        </tr>
+        <tr>
+            <td>google-bert/bert-large-cased</td>
+            <td>What software architecture did the codebase adopt after refactoring?</td>
+            <td>clean layered architecture — 1.0435</td>
+        </tr>
+        <tr>
+            <td>distilbert-base-cased-distilled-squad</td>
+            <td>What software architecture did the codebase adopt after refactoring?</td>
+            <td>clean layered architecture — 0.5736</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Análise e Conclusão</h2>
+<p>
+    Os resultados indicam forte tendência de identificação da <strong>Clean Layered Architecture</strong>,
+    especialmente nos modelos BERT e RoBERTa.  
+    O modelo com melhor desempenho foi:
+</p>
+<p><strong>google-bert/bert-large-cased-whole-word-masking-finetuned-squad</strong>, com maior escore de confiança.</p>
+
+<hr>
+
+<h1>Documentação do Script de Inferência QA sobre README</h1>
+
+<h2>Visão Geral</h2>
+<p>
+    Este script identifica padrões arquiteturais no arquivo <strong>README.md</strong> do repositório
+    LangExtract utilizando modelos de Question Answering (QA). A estratégia consiste em aplicar
+    perguntas semânticas sobre arquitetura ao conteúdo textual do README.
+</p>
+
+<h2>Objetivo do Script</h2>
+<p>
+    O objetivo é inferir automaticamente o estilo arquitetural descrito na documentação,
+    como Layered, Plugin-based, Client-Server, Modular etc. O modelo gera respostas com escores de confiança.
+</p>
+
+<h2>Estrutura e Dependências</h2>
+<ul>
+    <li><strong>transformers</strong> — carregamento e inferência QA</li>
+    <li><strong>os</strong> — manipulação de arquivos</li>
+    <li><strong>git</strong> — para clonar o repositório, se necessário</li>
+</ul>
+
+<h2>Fluxo de Execução</h2>
+
+<ol>
+    <li>Modelos utilizados:
+        <ul>
+            <li>distilbert-base-cased-distilled-squad</li>
+            <li>deepset/roberta-large-squad2</li>
+            <li>google-bert/bert-large-cased-whole-word-masking-finetuned-squad</li>
+        </ul>
+    </li>
+    <li>Carregamento do modelo com pipeline QA.
+      <code>
+        model_name = "distilbert-base-cased-distilled-squad"
+        pipe = pipeline("question-answering", model=model_name)
+      </code>
+    </li>
+    <li>Clonagem (ou verificação) do repositório LangExtract.
+      <code>repo_url = "https://github.com/google/langextract.git"
+        repo_dir = "langextract"</code>
+    </li>
+    <li>Leitura do arquivo README.md.
+      <code>
+        if not os.path.exists(repo_dir):
+          print(" Clonando repositório LangExtract ...")
+          Repo.clone_from(repo_url, repo_dir)
+        else:
+          print(" Repositório já disponível localmente.")
+          readme_path = os.path.join(repo_dir, "README.md")
+        if not os.path.exists(readme_path):
+          raise FileNotFoundError(" README.md não encontrado.")
+        with open(readme_path, "r", encoding="utf-8") as f:
+          readme_text = f.read()
+        print(f" README carregado ({len(readme_text)} caracteres)")
+      </code>
+    </li>
+    <li>Definição de perguntas otimizadas sobre arquitetura.
+      <code>
+        questions = [
+          "What software architecture does the project use?",
+          "Which architectural pattern best describes the LangExtract system?",
+          "Is this project modular, plugin-based, or monolithic?",
+          "What architecture or design style does LangExtract follow?",
+          "How is the system organized architecturally?",
+          "What architectural approach or framework is implemented?",
+          "What type of software architecture is described in the documentation?"
+          ]
+      </code>
+    </li>
+    <li>Execução da inferência para cada pergunta, armazenando respostas e escores.
+      <code>melhor = {"question": None, "answer": None, "score": 0.0}
+            contexto_total = contexto_extra + "\n" + contexto_relevante
+            print(" Iniciando análise...")
+            for q in questions:
+              result = pipe(question=q, context=contexto_total)
+              print(f"\n Pergunta: {q}")
+              print(f"→ Resposta: {result[’answer’]}")
+              print(f"→ Confiança: {result[’score’]:.4f}")
+              if result["score"] > melhor["score"]:
+                melhor = {"question": q, "answer": result["answer"], "score": result[’score’]} </code>
+    </li>
+    <li>Seleção automática da resposta com maior confiança.
+      <code>
+          print("\n === MELHOR RESULTADO ===")
+          print(f"Pergunta: {melhor[’question’]}")
+          print(f"Resposta: {melhor[’answer’]}")
+          print(f"Confiança: {melhor[’score’]:.4f}")
+      </code>
+    </li>
+</ol>
+
+<h2>Termos de Busca</h2>
+<p>
+    O modelo analisa expressões como: architecture, modular, plugin, service, pattern, refactor.
+</p>
+
+<h2>Saída Esperada</h2>
+<p>
+    O script exibe todas as respostas e escores e, ao final, seleciona a arquitetura mais provável.
+</p>
+
+<h2>Resultados Consolidados</h2>
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Modelo</th>
+            <th>Pergunta com Maior Score</th>
+            <th>Confiança</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>deepset/roberta-large-squad2</td>
+            <td>Into what architecture was the codebase refactored?</td>
+            <td>Client-Server — 0.0654</td>
+        </tr>
+        <tr>
+            <td>google-bert/bert-large-cased</td>
+            <td>What architecture or design style does LangExtract follow?</td>
+            <td>Software architecture — 0.6738</td>
+        </tr>
+        <tr>
+            <td>distilbert-base-cased-distilled-squad</td>
+            <td>What architecture or design style does LangExtract follow?</td>
+            <td>custom model</td>
+        </tr>
+    </tbody>
+</table>
