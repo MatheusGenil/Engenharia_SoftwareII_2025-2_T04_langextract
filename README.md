@@ -8,6 +8,105 @@ Tutorial completo (PDF): https://github.com/MatheusGenil/Engenharia_SoftwareII_2
 
 Link do video: https://www.youtube.com/watch?v=8VtF0UstUsc
 
+<section>
+    <h1>Metodologia</h1>
+    <p>
+        Este capítulo descreve as etapas, ferramentas e procedimentos adotados na condução
+        dos experimentos realizados para a análise de padrões arquiteturais em projetos de software,
+        utilizando modelos de linguagem pré-treinados. O objetivo principal desta etapa é detalhar
+        o processo que permitiu aplicar técnicas de <strong>Zero-Shot Classification</strong> e 
+        <strong>Question Answering (QA)</strong> a artefatos textuais de repositórios reais,
+        garantindo a reprodutibilidade dos resultados.
+    </p>
+    <h2>Ambiente de Experimentos</h2>
+    <p>
+        Todos os experimentos foram realizados no ambiente <strong>Google Colab</strong>, utilizando a
+        biblioteca <strong>Transformers</strong> da Hugging Face, amplamente reconhecida por seu suporte
+        a modelos baseados na arquitetura Transformer. Foram utilizados notebooks em <strong>Python 3</strong>,
+        com versões atualizadas das bibliotecas <code>transformers</code>, <code>torch</code> e 
+        <code>subprocess</code>.
+    </p>
+    <p>
+        Os modelos foram carregados diretamente do repositório <strong>Hugging Face Hub</strong>, o que
+        possibilitou o uso de diferentes arquiteturas de forma modular. O repositório público
+        <code>google/langextract</code>, hospedado no GitHub, foi selecionado como base de análise
+        por conter código-fonte e documentação textual representando um cenário real de engenharia
+        de software.
+    </p>
+    <h2>Coleta de Dados</h2>
+    <p>
+        O primeiro passo consistiu em clonar o repositório <strong>LangExtract</strong> por meio de comandos
+        Git executados dentro do notebook. A partir dele, foram extraídos dois tipos de artefatos textuais:
+    </p>
+    <ul>
+        <li>
+            <strong>Mensagens de commit</strong>: obtidas com o comando <code>git log</code>, filtrando mensagens
+            que continham termos relacionados a padrões arquiteturais e de design, como
+            <em>architecture</em>, <em>pattern</em>, <em>refactor</em>, entre outros.
+        </li>
+        <li>
+            <strong>Documentação técnica</strong>: conteúdo do arquivo <code>README.md</code>, utilizado como
+            base textual para a análise semântica.
+        </li>
+    </ul>
+    <p>
+        Esses textos foram utilizados como contexto para a execução dos modelos de linguagem,
+        permitindo avaliar a capacidade de cada modelo em identificar referências explícitas
+        ou implícitas a padrões de arquitetura.
+    </p>
+    <h2>Configuração dos Modelos</h2>
+    <p>Foram utilizados dois tipos principais de abordagens baseadas em modelos pré-treinados:</p>
+    <ol>
+        <li>
+            <strong>Zero-Shot Classification</strong>: nessa abordagem, o modelo recebe um texto e um
+            conjunto de possíveis rótulos (<em>candidate labels</em>) correspondentes a padrões arquiteturais,
+            como <em>Layered</em>, <em>Microservices</em>, <em>MVC</em>, <em>Factory Method</em>, entre outros.
+            O modelo, sem treinamento supervisionado, calcula a probabilidade de cada rótulo estar
+            relacionado ao conteúdo analisado.
+        </li>
+        <li>
+            <strong>Question Answering (QA)</strong>: nesta etapa, foram aplicados modelos ajustados para
+            responder perguntas baseadas em um contexto textual. O contexto fornecido foi o conteúdo
+            do arquivo <code>README.md</code>, e as perguntas buscaram identificar qual padrão arquitetural
+            o projeto segue, qual arquitetura foi adotada ou qual estilo de design está descrito
+            na documentação.
+        </li>
+    </ol>
+    <h2>Fluxo Experimental</h2>
+    <p>A execução de cada experimento seguiu o seguinte fluxo:</p>
+    <ol>
+        <li>Instalação e importação das bibliotecas necessárias;</li>
+        <li>Clonagem do repositório LangExtract;</li>
+        <li>Extração e leitura dos artefatos textuais (commits e README);</li>
+        <li>Processamento dos textos com os modelos de linguagem definidos;</li>
+        <li>Registro dos resultados gerados (rótulos preditos ou respostas textuais);</li>
+        <li>Análise comparativa entre os modelos.</li>
+    </ol>
+    <p>
+        Cada modelo foi executado individualmente sobre os mesmos conjuntos de dados,
+        garantindo a uniformidade da análise. As saídas foram registradas no console do notebook
+        e posteriormente interpretadas para fins de discussão e comparação.
+    </p>
+    <h2>Critérios de Avaliação</h2>
+    <p>A avaliação dos resultados baseou-se em dois aspectos principais:</p>
+    <ul>
+        <li>
+            <strong>Relevância semântica</strong>: medida pela coerência entre a predição do modelo e o
+            conteúdo real dos artefatos analisados.
+        </li>
+        <li>
+            <strong>Confiança (score)</strong>: valor de probabilidade retornado por cada modelo,
+            indicando a segurança da resposta ou classificação gerada.
+        </li>
+    </ul>
+    <p>
+        Esses critérios permitiram comparar o desempenho relativo das abordagens Zero-Shot
+        e Question Answering, bem como discutir a adequação de cada modelo às tarefas
+        de extração de informações arquiteturais em código e documentação.
+    </p>
+</section>
+
+
 <h1>Documentação do Script de Classificação Zero-Shot com Hugging Face</h1>
 
 <h3>Visão Geral</h3>
