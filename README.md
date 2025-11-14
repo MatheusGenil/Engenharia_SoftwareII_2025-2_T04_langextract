@@ -2,13 +2,13 @@
 
 Este repositório contém os experimentos, scripts e documentação produzidos para a atividade de análise de padrões arquiteturais utilizando modelos de linguagem pré-treinados. O objetivo central do trabalho é investigar como modelos baseados em Transformers, originalmente desenvolvidos para Processamento de Linguagem Natural (PLN), podem ser aplicados à interpretação de artefatos de software, como mensagens de commit e documentação técnica.
 
-A análise foi conduzida utilizando técnicas de Zero-Shot Classification e Question Answering, aplicadas a textos reais extraídos do repositório público LangExtract, da Google. O foco foi verificar a capacidade desses modelos em identificar padrões arquiteturais presentes no projeto, tais como Layered Architecture, Clean Architecture, Repository Pattern e Service-Oriented Architecture, mesmo sem nenhum treinamento supervisionado específico para essa tarefa.
+A análise foi conduzida utilizando técnicas de Zero-Shot Classification e Question Answering, aplicadas a textos reais extraídos do repositório público <a href="https://github.com/google/langextract" target="_blank">LangExtract</a>, da Google. O foco foi verificar a capacidade desses modelos em identificar padrões arquiteturais presentes no projeto, tais como Layered Architecture, Clean Architecture, Repository Pattern e Service-Oriented Architecture, mesmo sem nenhum treinamento supervisionado específico para essa tarefa.
 
 Tutorial em PDF: https://github.com/MatheusGenil/Engenharia_SoftwareII_2025-2_T04_langextract/blob/01e6da0d09d93cf5f88d8c8ffe3e196260fe29bc/Tutorial.pdf
 
 Link do video: https://www.youtube.com/watch?v=8VtF0UstUsc
 
-<h2>Documentação do Script de Classificação Zero-Shot com Hugging Face</h2>
+<h1>Documentação do Script de Classificação Zero-Shot com Hugging Face</h1>
 
 <h3>3.1.1 Visão Geral</h3>
 <p>O código em análise implementa um script em Python para a identificação de padrões
