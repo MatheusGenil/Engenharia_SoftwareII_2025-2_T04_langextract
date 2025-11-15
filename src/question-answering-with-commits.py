@@ -1,4 +1,3 @@
-!pip install -U Transformers
 from transformers import pipeline
 import os
 
