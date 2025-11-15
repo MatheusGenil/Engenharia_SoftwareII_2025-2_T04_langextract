@@ -2,9 +2,6 @@
 #Análise de Arquitetura de Software via QA (README)
 # =====================================================
 
-# Instala dependências
-!pip install -q transformers gitpython
-
 from transformers import pipeline
 import os, re
 from git import Repo
