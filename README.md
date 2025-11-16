@@ -8,6 +8,8 @@ Tutorial completo (PDF): https://github.com/MatheusGenil/Engenharia_SoftwareII_2
 
 Link do video: https://drive.google.com/file/d/1UKRzWij-_ip2Oz2yoU1lPN26qh0kOO5a/view?usp=sharing
 
+**Como executar as implementações:** https://colab.research.google.com/drive/16JMDe9skailRM10duQE4F_duC9Mkq1V_?usp=sharing
+
 <section>
     <h1>Metodologia</h1>
     <p>
