@@ -20,6 +20,37 @@ Link do video: https://drive.google.com/file/d/1UKRzWij-_ip2Oz2yoU1lPN26qh0kOO5a
         <strong>Question Answering (QA)</strong> a artefatos textuais de repositórios reais,
         garantindo a reprodutibilidade dos resultados.
     </p>
+    <h1>Motivo da escolha dos modelos</h1>
+    <p>        
+        
+        
+**joeddav/xlm-roberta-large-xnli:** Multilíngue forte e robusto, sendo melhor para Commits mistos e textos curtos e informais.
+
+**facebook/bart-large-mnli:** Baseline clássico, ótimo com textos longos, sendo melhor para README, documentação e análises formais.
+
+**mDeBERTa-v3-base-mnli-xnli:** Mais moderno e maior precisão, sendo melhor, no geral para Zero-Shot de arquitetura.
+
+**deepset/roberta-large-squad2:** Modelo de Perguntas e Respostas capaz de identificar quando existe ou não resposta no texto, ótimo para validar conteúdo real dentro dos commits.
+
+**google-bert/bert-large-cased-whole-word-masking-finetuned-squad:** É um modelo extremamente estável e previsível, diferente de modelos mais novos como RoBERTa ou DeBERTa. Trata-se de um modelo rápido, leve o suficiente para rodar em CPU, não introduz "alucinações", responde só baseado no contexto fornecido, excelente para análise técnica e documentação ou textos longos.
+    </p>
+    <h2>Infraestrutura para Execução dos Modelos</h2>
+    <p>
+        A execução dos modelos foi realizada em um ambiente na nuvem, utilizando o serviço Google Colab (Runtime Gratuito), que disponibiliza recursos computacionais suficientes para treinar e validar modelos de aprendizado de máquina.
+
+**Especificação do Serviço:**
+- Plataforma: Google Colab – Runtime Gratuito
+- Tipo de ambiente: Google Compute Engine (instância temporária)
+- Linguagem: Python 3
+- Aceleração: GPU habilitada
+
+**Recursos Computacionais Disponíveis:**
+- GPU: NVIDIA Tesla T4
+- VRAM: 15 GB
+- Memória RAM do sistema: 12.7 GB
+- Disco disponível: 112.6 GB
+- Sistema Operacional: Linux (instância virtual do Google Cloud)
+    </p>
     <h2>Ambiente de Experimentos</h2>
     <p>
         Todos os experimentos foram realizados no ambiente <strong>Google Colab</strong>, utilizando a
@@ -66,7 +97,7 @@ Link do video: https://drive.google.com/file/d/1UKRzWij-_ip2Oz2yoU1lPN26qh0kOO5a
             O modelo, sem treinamento supervisionado, calcula a probabilidade de cada rótulo estar
             relacionado ao conteúdo analisado.
         </li>
-        <li>
+        <li>meto
             <strong>Question Answering (QA)</strong>: nesta etapa, foram aplicados modelos ajustados para
             responder perguntas baseadas em um contexto textual. O contexto fornecido foi o conteúdo
             do arquivo <code>README.md</code>, e as perguntas buscaram identificar qual padrão arquitetural
