@@ -50,6 +50,11 @@ Link do video: https://drive.google.com/file/d/1UKRzWij-_ip2Oz2yoU1lPN26qh0kOO5a
 - Memória RAM do sistema: 12.7 GB
 - Disco disponível: 112.6 GB
 - Sistema Operacional: Linux (instância virtual do Google Cloud)
+  Especificação do Processador Utilizado
+
+**Processador padrão do ambiente Colab com GPU T4:**
+- Intel Xeon CPU @ 2.20GHz
+- 2 a 4 vCPUs variando dinamicamente
     </p>
     <h2>Ambiente de Experimentos</h2>
     <p>
